@@ -22,6 +22,7 @@ app.use((req, res) => {
     error: "Not found",
   });
 });
+
 app.use(bodyParser.json());
 dotenv.config();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -36,5 +37,12 @@ const limiter = expressRateLimit({
   max: 100,
 });
 app.use(limiter);
+
+mongoose
+  .connect(process.env.DATABASE)
+  .then(() => {
+    console.log("DB Connected");
+  })
+  .catch((err) => console.log(err));
 
 module.exports = app;
